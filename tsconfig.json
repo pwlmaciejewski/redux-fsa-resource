@@ -2,26 +2,20 @@
   "compilerOptions": {
     "outDir": "lib",
     "target": "es5",
-    "module": "commonjs",
+    "module": "es6",
     "moduleResolution": "node",
     "jsx": "react",
     "allowJs": false,
     "allowSyntheticDefaultImports": false,
     "declaration": true,
-    "typeRoots" : ["./types"],
-    "types": [
-      "node"
-    ],
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "baseUrl": ".",
     "lib": ["es6", "dom", "es7", "es2017"]
   },
   "include": [
-    "./src/**/*",
-    "./tests/**/*"
+    "./src/**/*"
   ],
   "exclude": [
     "dist",

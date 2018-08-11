@@ -1,14 +1,18 @@
 {
   "name": "redux-fsa-resource",
   "version": "0.0.1",
-  "description": "Simple resource management for Redux",
-  "main": "index.js",
+  "description": "Lightweight resource management for Redux",
+  "main": "lib/index.js",
   "repository": "https://github.com/pwlmaciejewski/redux-fsa-resource.git",
   "author": "Paweł Maciejewski <pwlmaciejewski@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "lint": "tslint --project .",
+    "build": "tsc -p .",
+    "test": "jest"
+  },
   "dependencies": {
     "object-hash": "^1.3.0",
-    "typescript": "^3.0.1",
     "typescript-fsa": "^3.0.0-beta-2"
   },
   "devDependencies": {
@@ -19,6 +23,19 @@
     "ts-jest": "~23.0.1",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",
-    "tslint-config-standard": "^7.1.0"
+    "tslint-config-standard": "^7.1.0",
+    "typescript": "^3.0.1"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      ".ts": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   }
 }

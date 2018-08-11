@@ -1,15 +1,11 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint-config-standard",
-    "tslint-react"
+    "tslint-config-standard"
   ],
   "jsRules": {},
   "rules": {
-    "jsx-no-lambda": false,
-    "jsx-no-multiline-js": false,
-    "semicolon": false,
-    "jsx-boolean-value": false
+    "semicolon": false
   },
   "rulesDirectory": []
 }
