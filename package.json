@@ -1,0 +1,24 @@
+{
+  "name": "redux-fsa-resource",
+  "version": "0.0.1",
+  "description": "Simple resource management for Redux",
+  "main": "index.js",
+  "repository": "https://github.com/pwlmaciejewski/redux-fsa-resource.git",
+  "author": "Paweł Maciejewski <pwlmaciejewski@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "object-hash": "^1.3.0",
+    "typescript": "^3.0.1",
+    "typescript-fsa": "^3.0.0-beta-2"
+  },
+  "devDependencies": {
+    "@types/jest": "~23.0.1",
+    "@types/object-hash": "^1.2.0",
+    "jest": "~23.0.1",
+    "jest-cli": "~23.0.1",
+    "ts-jest": "~23.0.1",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0",
+    "tslint-config-standard": "^7.1.0"
+  }
+}
