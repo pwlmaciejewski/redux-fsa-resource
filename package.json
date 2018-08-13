@@ -1,6 +1,6 @@
 {
   "name": "redux-fsa-resource",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightweight resource management for Redux",
   "main": "lib/index.js",
   "repository": "https://github.com/pwlmaciejewski/redux-fsa-resource.git",
