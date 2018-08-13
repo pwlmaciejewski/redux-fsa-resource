@@ -1,5 +1,5 @@
 import { actionCreatorFactory, AnyAction, isType, ActionCreator, AsyncActionCreators } from 'typescript-fsa'
-import { ResourceParams, Resource, resourceId, defaultResource, Resources } from './models/resource'
+import { ResourceParams, Resource, resourceId, defaultResource, Resources } from './models/Resource'
 import { defaultAsyncRequest } from './models/AsyncRequest'
 
 export const initialState = {}
