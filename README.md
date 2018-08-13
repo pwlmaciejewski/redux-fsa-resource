@@ -1,4 +1,4 @@
-# redux-fsa-resource
+# redux-fsa-resource [![CircleCI](https://circleci.com/gh/pwlmaciejewski/redux-fsa-resource.svg?style=svg)](https://circleci.com/gh/pwlmaciejewski/redux-fsa-resource) [![npm version](https://badge.fury.io/js/redux-fsa-resource.svg)](https://badge.fury.io/js/redux-fsa-resource) 
 
 Lightweight resource management for [Redux](https://redux.js.org/).
 It uses [Typescript-FSA](https://github.com/aikoven/typescript-fsa) under the hood.
