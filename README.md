@@ -234,10 +234,11 @@ interface AsyncRequest {
 ```typescript
 interface ResourceModule<R> {
   name: string
-  get: AsyncActionCreator<ResourceParams, R, Error>
+  create: (params: ResourceParams) => Resource<R>
+  get: AsyncActionCreators<ResourceParams, R, Error>
   update: ActionCreator<UpdateResourceParams<R>>
   delete: ActionCreator<ResourceParams>
-  reducer: (state: Resources<R>, action: AnyAction) => Resources<R>
-  create: (params: ResourceParams) => Resource<R>
+  createReducer: (innerReducer?: (state: Resources<R>, action: AnyAction) => Resources<R>) =>
+    (state: Resources<R>, action: AnyAction) => Resources<R>
 }
 ```

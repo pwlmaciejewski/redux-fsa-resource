@@ -1,5 +1,6 @@
 import 'jest'
 import createResource, { initialState, defaultAsyncRequest } from '../src'
+import * as sinon from 'sinon'
 
 describe('create resource', () => {
   describe('reducer', () => {
@@ -7,7 +8,7 @@ describe('create resource', () => {
 
     it('should update request on getResource action started', () => {
       const action = resource.get.started('bar')
-      const newState = resource.reducer(initialState, action)
+      const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual({
         'bar': {
           name: 'foo',
@@ -24,7 +25,7 @@ describe('create resource', () => {
     it('should not update the resource if action started of some other resurce', () => {
       const otherResource = createResource('abc')
       const action = otherResource.get.started('bar')
-      const newState = resource.reducer(initialState, action)
+      const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual(initialState)
     })
 
@@ -33,7 +34,7 @@ describe('create resource', () => {
         params: 'bar',
         result: 'baz'
       })
-      const newState = resource.reducer(initialState, action)
+      const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual({
         'bar': {
           name: 'foo',
@@ -54,7 +55,7 @@ describe('create resource', () => {
         resource: 'baz'
       })
       const error = new Error('some error')
-      const newState = resource.reducer({
+      const newState = resource.createReducer()({
         'bar': {
           name: 'foo',
           id: 'bar',
@@ -86,7 +87,7 @@ describe('create resource', () => {
         params: 'bar',
         resource: 'baz'
       })
-      const newState = resource.reducer(initialState, action)
+      const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual({
         'bar': {
           name: 'foo',
@@ -104,7 +105,7 @@ describe('create resource', () => {
         params: 'bar',
         error
       })
-      const newState = resource.reducer(initialState, action)
+      const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual({
         'bar': {
           name: 'foo',
@@ -122,7 +123,7 @@ describe('create resource', () => {
     it('should delete resource on deleteResource action', () => {
       const error = new Error('some error')
       const action = resource.delete('bar')
-      const newState = resource.reducer({
+      const newState = resource.createReducer()({
         'bar': {
           name: 'foo',
           id: 'bar',
@@ -135,6 +136,15 @@ describe('create resource', () => {
         }
       }, action)
       expect(newState).toEqual({})
+    })
+
+    it('should execute inner reducer', () => {
+      const innerReducer = sinon.stub().returnsArg(0)
+      resource.createReducer(innerReducer)({}, resource.update({
+        params: 'foo',
+        resource: 'bar'
+      }))
+      expect(innerReducer.calledOnce).toBe(true)
     })
   })
 })

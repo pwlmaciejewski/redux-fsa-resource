@@ -15,7 +15,8 @@ export interface ResourceModule<R> {
   get: AsyncActionCreators<ResourceParams, R, Error>
   update: ActionCreator<UpdateResourceParams<R>>
   delete: ActionCreator<ResourceParams>
-  reducer: (state: Resources<R>, action: AnyAction) => Resources<R>
+  createReducer: (innerReducer?: (state: Resources<R>, action: AnyAction) => Resources<R>) =>
+    (state: Resources<R>, action: AnyAction) => Resources<R>
 }
 
 export default <R>(name: string): ResourceModule<R> => {
@@ -27,7 +28,7 @@ export default <R>(name: string): ResourceModule<R> => {
 
   const deleteResource = actionCreator<ResourceParams>('DELETE_RESOURCE')
 
-  const reducer = (state: Resources<R> = initialState, action: AnyAction): Resources<R> => {
+  const resourceReducer = (state: Resources<R> = initialState, action: AnyAction): Resources<R> => {
     if (isType(action, getResource.started)) {
       const params = action.payload
       const resource: Resource<R> = {
@@ -101,12 +102,20 @@ export default <R>(name: string): ResourceModule<R> => {
     return state
   }
 
+  const createReducer = (innerReducer?: (state: Resources<R>, action: AnyAction) => Resources<R>) =>
+    (state: Resources<R> = initialState, action: AnyAction) => {
+      if (innerReducer) {
+        state = innerReducer(state, action)
+      }
+      return resourceReducer(state, action)
+    }
+
   return {
     name,
     create: (params: ResourceParams): Resource<R> => defaultResource(name, params),
     get: getResource,
     update: updateResource,
     delete: deleteResource,
-    reducer
+    createReducer
   }
 }
