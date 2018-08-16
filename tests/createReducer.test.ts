@@ -7,7 +7,7 @@ describe('create resource', () => {
     const resource = createResource('foo')
 
     it('should update request on getResource action started', () => {
-      const action = resource.get.started('bar')
+      const action = resource.fetchStarted('bar')
       const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual({
         'bar': {
@@ -24,13 +24,13 @@ describe('create resource', () => {
 
     it('should not update the resource if action started of some other resurce', () => {
       const otherResource = createResource('abc')
-      const action = otherResource.get.started('bar')
+      const action = otherResource.fetchStarted('bar')
       const newState = resource.createReducer()(initialState, action)
       expect(newState).toEqual(initialState)
     })
 
     it('should update request and save resource on getResource action done', () => {
-      const action = resource.get.done({
+      const action = resource.fetchDone({
         params: 'bar',
         result: 'baz'
       })
@@ -101,7 +101,7 @@ describe('create resource', () => {
 
     it('should update request and save error on getResource action failed', () => {
       const error = new Error('some error')
-      const action = resource.get.failed({
+      const action = resource.fetchFailed({
         params: 'bar',
         error
       })

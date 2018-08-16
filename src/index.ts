@@ -1,4 +1,4 @@
-export * from './models/AsyncRequest'
+export * from './asyncRequest'
 export * from './models/Resource'
 export * from './createResource'
 
