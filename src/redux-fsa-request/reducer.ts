@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { actionCreatorFactory, ActionCreator, Success, Failure, AnyAction, isType } from 'typescript-fsa'
+import { AnyAction, isType } from 'typescript-fsa'
 import { Request, defaultRequest } from './models'
 import { Actions } from './actions'
 
