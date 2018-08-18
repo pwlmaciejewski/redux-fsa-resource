@@ -1,6 +1,9 @@
 import 'jest'
-import createResource, { initialState, defaultAsyncRequest } from '../src'
+import createResource from '../src'
+import { defaultRequest } from '../src/redux-fsa-request'
 import * as sinon from 'sinon'
+
+const initialState = {}
 
 describe('create resource', () => {
   describe('reducer', () => {
@@ -93,7 +96,7 @@ describe('create resource', () => {
           name: 'foo',
           id: 'bar',
           params: 'bar',
-          request: defaultAsyncRequest,
+          request: defaultRequest,
           resource: 'baz'
         }
       })

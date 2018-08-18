@@ -1,4 +1,4 @@
-import { AsyncRequest, defaultAsyncRequest } from '../asyncRequest'
+import { Request, defaultRequest } from './redux-fsa-request'
 import * as hash from 'object-hash'
 
 export type ResourceParams = object | number | string | boolean
@@ -7,12 +7,8 @@ export interface Resource<T, E> {
   id: string
   name: string
   params: ResourceParams
-  request: AsyncRequest<E>
+  request: Request<E>
   resource?: T
-}
-
-export interface Resources<T, E> {
-  [id: string]: Resource<T, E>
 }
 
 export const resourceId = (params: ResourceParams): string => {
@@ -24,5 +20,5 @@ export const defaultResource = (name: string, params: ResourceParams): Resource<
   name,
   params,
   id: resourceId(params),
-  request: defaultAsyncRequest
+  request: defaultRequest
 })
