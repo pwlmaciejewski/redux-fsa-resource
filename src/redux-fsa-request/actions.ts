@@ -4,7 +4,7 @@ export interface Actions<P, S, E> {
   started: ActionCreator<P>
   done: ActionCreator<Success<P, S>>
   failed: ActionCreator<Failure<P, E>>
-  reset: ActionCreator<void>
+  reset: ActionCreator<P>
 }
 
 export default <P = any, S = any, E = Error>(name: string): Actions<P, S, E> => {
@@ -12,7 +12,7 @@ export default <P = any, S = any, E = Error>(name: string): Actions<P, S, E> => 
 
   const async = actionCreator.async<P, S, E>(name.toUpperCase())
 
-  const reset = actionCreator<void>(`${name.toUpperCase()}/RESET`)
+  const reset = actionCreator<P>(`${name.toUpperCase()}/RESET`)
 
   return {
     started: async.started,

@@ -11,7 +11,7 @@ export interface Actions<R, E> {
   fetchStarted: ActionCreator<ResourceParams>
   fetchDone: ActionCreator<Success<ResourceParams, R>>
   fetchFailed: ActionCreator<Failure<ResourceParams, E>>
-  fetchReset: ActionCreator<void>
+  fetchReset: ActionCreator<ResourceParams>
   update: ActionCreator<UpdateResourceParams<R>>
   delete: ActionCreator<ResourceParams>
 }

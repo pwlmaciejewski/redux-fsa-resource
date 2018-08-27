@@ -1,33 +1,32 @@
 import { Reducer } from 'redux'
-import { AnyAction, isType } from 'typescript-fsa'
+import { AnyAction, isType, Failure, Action } from 'typescript-fsa'
 import { Request, defaultRequest } from './models'
 import { Actions } from './actions'
+import { initialState, withActionType, compose, always, withState, elevate } from 'redux-hor'
 
-export default <P = any, S = any, E = Error>(actions: Actions<P, S, E>): Reducer<Request<E>> =>
-  (state: Request<E> = defaultRequest, action: AnyAction): Request<E> => {
-    if (isType(action, actions.started)) {
-      return {
-        pending: true,
-        success: false
-      }
-    }
+export default <P = any, S = any, E = Error>(actions: Actions<P, S, E>): Reducer<Request<E>> => {
+  const started = withActionType(actions.started.type, withState<Request<E>>({
+    pending: true,
+    success: false
+  }))
 
-    if (isType(action, actions.done)) {
-      return {
-        pending: false,
-        success: true
-      }
-    }
+  const done = withActionType(actions.done.type, withState<Request<E>>({
+    pending: false,
+    success: true
+  }))
 
-    if (isType(action, actions.failed)) {
-      return {
-        pending: false,
-        success: false,
-        error: action.payload.error
-      }
-    }
+  const failed = withActionType(actions.failed.type, elevate<Request<E>, Action<Failure<P, E>>>((state, action) => ({
+    pending: false,
+    success: false,
+    error: action.payload.error
+  })))
 
-    if (isType(action, actions.reset)) return defaultRequest
+  const reset = withActionType(actions.reset.type, withState(defaultRequest))
 
-    return state
-  }
+  return compose(
+    started,
+    done,
+    failed,
+    reset
+  )(initialState(defaultRequest))
+}
