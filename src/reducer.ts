@@ -23,12 +23,53 @@ export default <R, E = Error>(name: string, actions: Actions<R, E>, request: Req
       if (isType(action, actions.update)) return action.payload.params
     }
 
+    withContext(
+      (state, action) => {
+        if (isType(action, actions.fetchStarted) ||
+          isType(action, actions.fetchReset) ||
+          isType(action, actions.delete)) return action.payload
+        if (isType(action, actions.fetchFailed) || isType(action, actions.fetchDone)) return action.payload.params
+        if (isType(action, actions.update)) return action.payload.params
+      },
+      (params) => nest(
+        (state, action) => getResourceId(action),
+        (state: Resource<R, E> | undefined, action: Action<ResourceParams>) => {
+          const payload = getPayload(action)
+          if (!payload) throw new Error('Cannot read action payload')
+          return elevate<Resource<R, E>>(createResourceReducer(name, payload, actions, request))
+        }
+      )
+    )
+
+    const nestedResource = (params) => nest(
+      (state, action) => getResourceId(action),
+      (state: Resource<R, E> | undefined, action: Action<ResourceParams>) => {
+        const payload = getPayload(action)
+        if (!payload) throw new Error('Cannot read action payload')
+        return elevate<Resource<R, E>>(createResourceReducer(name, payload, actions, request))
+      }
+    )
+
+    // THIS IS IT. How can we make it work with type checking??
+    compose(
+      withActions(
+        [actions.fetchStarted, actions.fetchReset, actions.delete],
+        withContext((state, action) => action.payload), nestedResource)
+      ),
+      withActions(
+        [actions.fetchFailed, actions.fetchDone, actions.update],
+        withContext((state, action) => action.payload.params), nestedResource)
+      )
+    )
+
+
     const getResourceId = (action: AnyAction): string | undefined => {
       const payload = getPayload(action)
       return payload ? resourceId(payload) : undefined
     }
 
     // TODO: WIP, read it and check if it makes sense. Try to make it better
+    // Maybe some kind of action context? Fan-in with actions?
     nest(
       (state, action) => getResourceId(action),
       (state: Resource<R, E> | undefined, action: Action<ResourceParams>) => {
